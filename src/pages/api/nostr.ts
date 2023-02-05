@@ -16,16 +16,15 @@ export default function handler(
   const path = normalizeParam(req.query?.path)
 
   if (name === undefined || path !== 'nostr.json') {
-    console.log('caught')
     return res.status(404).end()
   }
 
-  const json = generateJson(name,'abc123')
+  const json = generateNostrJson(name, 'deadbeef')
 
   return res.status(200).json(json)
 }
 
-function generateJson(
+function generateNostrJson(
   name   : string, 
   pubkey : string, 
   relays : string[] = []
