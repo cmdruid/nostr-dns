@@ -1,13 +1,17 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 
+import { normalizeParam } from '@/lib/utils'
+
 type Data = {
-  name: string
+  [ k : string ] : string 
 }
 
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  res.status(200).json({ name: 'John Doe' })
+  const address = normalizeParam(req.query?.pubkey)
+
+  
+  
 }

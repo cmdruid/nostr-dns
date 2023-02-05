@@ -1,0 +1,33 @@
+.container {
+  margin                    : 0 auto;
+  min-height                : 100vh;
+}
+
+.header {
+  top                       : 0;
+  position                  : sticky;
+  width                     : 100%;
+  padding                   : 0.5rem 0.75rem;
+  background-color          : #373737ff;
+  z-index                   : 1;
+}
+
+.main {
+  height: 100%;
+  padding : 1rem;
+}
+
+.footer {
+  align-self                : flex-end;
+  width                     : 100%;
+  padding                   : 0.5rem;
+}
+
+@media print {
+  .header {
+      display               : none;
+  }
+  .footer {
+    display                 : none;
+  }
+}
