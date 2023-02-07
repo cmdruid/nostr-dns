@@ -25,15 +25,20 @@ export default async function handler (
     const pubkeys  = await getCollection(PubModel),
           nickname = await pubkeys.findOne({ name })
 
+    
+
     // If slug found, redirect to URL.
     if (nickname !== null) {
       return res.status(200).json({
         names  : { [ nickname.name ]   : nickname.pubkey },
-        relays : { [ nickname.pubkey ] : nickname.relays }
+        relays : { [ nickname.pubkey ] : nickname.relays ?? [] }
       })
     }
     
     // Otherwise, 404 not found.
     return res.status(404).end()
-  } catch(err) { res.status(500).end() }
+  } catch(err) { 
+    console.error(err)
+    res.status(500).end() 
+  }
 }

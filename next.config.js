@@ -5,7 +5,7 @@ const nextConfig = {
     return [
         {
           source: '/.well_known/:path(nostr.json*)',
-          destination: '/api/nostr',
+          destination: '/api/nip5',
           // has: [{ type: 'query', key: 'name' }],
         },
       ]

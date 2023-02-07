@@ -6,10 +6,10 @@ const PubSchema = {
    */
   bsonType: "object",
 
-  required: [ "nick", "pubkey" ],
+  required: [ "name", "pubkey" ],
   
   properties: {
-    nick: {
+    name: {
       bsonType: "string",
       maxLength: 64,
       description: "Must be a string and is required."
@@ -36,7 +36,7 @@ export const PubModel = {
      */
     {
       name: "_lookup_",
-      key: { nick: 1, pubkey: 1 },
+      key: { name: 1, pubkey: 1 },
       unique: true
     }
   ],
