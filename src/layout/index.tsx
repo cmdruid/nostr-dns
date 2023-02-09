@@ -1,19 +1,12 @@
-/** components/layout.js
- *  This file serves as the default boilerplate for each page.
- *  HTML for other pages will be wrapped within this layout component.
- */
-
-// import { Head } from 'react'
-
 import { ReactElement } from 'react'
-import Head from 'next/head'
-import styles   from './styles.module.css'
+import Head   from 'next/head'
+import styles from './styles.module.css'
 
 interface Props {
   children : ReactElement | ReactElement[]
 }
 
-export function Layout (
+export default function Layout (
   { children } : Props
 ) : ReactElement {
   return (
@@ -21,7 +14,7 @@ export function Layout (
 
       <Head>
         <title>pubkey.club</title>
-        <meta name="description" content="Get verified on nostr. Join the club." />
+        <meta name="description" content="Grab a nickname, join the club." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

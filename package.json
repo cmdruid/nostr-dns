@@ -9,17 +9,25 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@cmdcode/buff-utils": "^1.2.2",
     "@next/font": "13.1.6",
     "@types/node": "18.11.19",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
+    "bech32": "^2.0.0",
+    "dayjs": "^1.11.7",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
+    "iron-session": "^6.3.1",
     "mongodb": "^5.0.0",
     "next": "13.1.6",
+    "qrcode": "^1.5.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "4.9.5"
+    "typescript": "4.9.5",
+    "zod": "^3.20.5"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/qrcode": "^1.5.0"
+  }
 }

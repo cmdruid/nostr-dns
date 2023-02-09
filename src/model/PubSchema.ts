@@ -20,8 +20,20 @@ const PubSchema = {
       description: "Must be a string and is required."
     },
     relays: {
+      bsonType: [ "string" ]
+    },
+    status: {
+      bsonType: [ "string" ]
+    },
+    purchased: {
+      bsonType: [ "date" ],
+    },
+    expires: {
+      bsonType: [ "date" ]
+    },
+    invoice: {
       bsonType: [ "string" ],
-      description: "Array of strings."
+      maxLength: 256
     }
   }
 }
@@ -36,7 +48,7 @@ export const PubModel = {
      */
     {
       name: "_lookup_",
-      key: { name: 1, pubkey: 1 },
+      key: { name: 1, pubkey: 1, purchased: -1, expires: -1, invoice: 1 },
       unique: true
     }
   ],

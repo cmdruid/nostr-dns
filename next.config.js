@@ -25,6 +25,15 @@ const nextConfig = {
       //     destination: `https://my-old-site.com/:path*`,
       //   },
       // ],
+  },
+  async redirects() {
+    return [
+      {
+        source: '/.well-known/lnurlp',
+        destination: '/api/payRequest',
+        permanent: true,
+      }
+    ]
   }
 }
 

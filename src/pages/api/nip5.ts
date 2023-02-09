@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { getCollection }  from '@/lib/controller'
-import { PubModel }    from '@/model/pubkey'
-import { normalizeParam } from '@/lib/utils'
+import { getCollection }   from '@/lib/controller'
+import { PubModel }        from '@/model/PubSchema'
+import { normalizeParams } from '@/lib/utils'
 
 type nip5 = {
   names  : { [ k : string ] : string }
@@ -13,8 +13,7 @@ export default async function handler (
   req: NextApiRequest,
   res: NextApiResponse<nip5>
 ) {
-  const name = normalizeParam(req.query?.name)
-  const path = normalizeParam(req.query?.path)
+  const { name, path } = normalizeParams(req.query)
 
   if (name === undefined || path !== 'nostr.json') {
     return res.status(404).end()
@@ -24,8 +23,6 @@ export default async function handler (
     // Fetch collection, and check if slug exists.
     const pubkeys  = await getCollection(PubModel),
           nickname = await pubkeys.findOne({ name })
-
-    
 
     // If slug found, redirect to URL.
     if (nickname !== null) {
