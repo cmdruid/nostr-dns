@@ -33,10 +33,6 @@ async function handler(
 
     const { settled } = invoice
 
-    console.log(process.env.NODE_ENV)
-
-    console.log('Invoice settled:', settled)
-
     if (settled) {
       const pubkeys = await getCollection(PubModel),
             record  = await pubkeys.findOne({ name: nickname })
@@ -62,11 +58,7 @@ async function handler(
         status    : 'active'
       }
 
-      console.log(newAcct)
-
       const created = await pubkeys.insertOne(newAcct)
-
-      console.log(created)
 
       if (!created) throw new Error('Failed to save new record to db.')
 
@@ -76,11 +68,15 @@ async function handler(
     }
 
     return res.status(200).json({ settled: false })
+
   } catch(err) {
-    console.error(err)
     if (err instanceof MongoServerError) {
-      console.dir(err.errInfo?.details?.schemaRulesNotSatisfied, { depth: null })
-    }
+      const rules = err.errInfo?.details?.schemaRulesNotSatisfied
+      if (rules !== undefined) {
+        console.log('[ Mongo ] Document failed validation rules:')
+        console.dir(rules, { depth: null })
+      }
+    } else { console.error(err) }
     res.status(200).json({ err: 'Internal server error.' })
   }
 }

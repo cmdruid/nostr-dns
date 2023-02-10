@@ -21,10 +21,7 @@ export async function getCollection(schema : any) {
     return coll;
   }
 
-  console.log('mode:', devMode)
-
   if (devMode) {
-    console.dir(cache.options, { depth: null })
     if (
       cache.options !== undefined &&
       isDiff(cache.options, options)
