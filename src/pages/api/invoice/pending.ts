@@ -6,6 +6,7 @@ import { lookupInvoice }    from '@/lib/lnd'
 import { PubModel }         from '@/model/PubSchema'
 import { getCollection }    from '@/lib/controller'
 import { withSessionRoute } from '@/lib/sessions'
+import { MongoServerError } from 'mongodb'
 
 export default withSessionRoute(handler)
 
@@ -13,13 +14,16 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-
-  // Reject all methods other than GET.
   if (req.method !== 'GET') res.status(400).end()
 
   try {
-    
-    const { amount, hash, nickname, pubkey, duration } = req.session?.pending
+    const { pending } = req.session
+
+    if (pending === undefined) {
+      return res.status(200).json({ err: 'Session has expired!' })
+    }
+
+    const { hash, nickname, pubkey, duration } = pending ?? {}
 
     const invoice = await lookupInvoice(hash)
 
@@ -29,27 +33,54 @@ async function handler(
 
     const { settled } = invoice
 
+    console.log(process.env.NODE_ENV)
+
+    console.log('Invoice settled:', settled)
+
     if (settled) {
+      const pubkeys = await getCollection(PubModel),
+            record  = await pubkeys.findOne({ name: nickname })
+
+      if (record !== null) {
+        return res.status(200).json({ err: 'Account already exists!' })
+      }
+
+      const expires = Math.floor(
+        dayjs
+          .unix(Date.now())
+          .add(duration, 'months')
+          .unix() 
+        / 1000
+      )
+
       const newAcct = {
         pubkey,
+        expires,
+        purchased : Math.floor(Date.now() / 1000),
+        receipt   : invoice.r_hash,
         name      : nickname,
-        invoiceId : hash,
-        purchased : Date.now(),
-        expires   : dayjs.unix(Date.now()).add(duration, 'months'),
         status    : 'active'
       }
-      const pubkeys = await getCollection(PubModel)
+
+      console.log(newAcct)
+
       const created = await pubkeys.insertOne(newAcct)
+
+      console.log(created)
+
       if (!created) throw new Error('Failed to save new record to db.')
 
       req.session.destroy()
 
-      return res.status(200).json({ settled, newAcct })
+      return res.status(200).json({ settled: true, newAcct })
     }
 
-    return res.status(200).json({ data: { settled } })
+    return res.status(200).json({ settled: false })
   } catch(err) {
-    console.log(err)
+    console.error(err)
+    if (err instanceof MongoServerError) {
+      console.dir(err.errInfo?.details?.schemaRulesNotSatisfied, { depth: null })
+    }
     res.status(200).json({ err: 'Internal server error.' })
   }
 }

@@ -33,8 +33,6 @@ async function handler(
     return res.status(200).json({ err: 'Invalid request!' })
   }
 
-  console.log(nickname, pubkey, duration)
-
   try {
     const pubkeys = await getCollection(PubModel),
           record  = await pubkeys.findOne({ name: nickname })
@@ -45,18 +43,21 @@ async function handler(
 
     const amount = config.sub_cost * Number(duration) * 1000
 
-    const memo = JSON.stringify([
-      [ "text/plain", `${nickname}@${config.site_name}` ],
-      [ "text/long-desc", `1YR subscription to ${nickname}@${config.site_name}.` ]
-    ])
+    const memo = `${nickname}@${config.site_name} for ${duration} months.`
 
-    const { payment_request, r_hash: hash } = await createInvoice({ amount, memo })
+    const response = await createInvoice({ amount, memo })
+
+    if (response === undefined) {
+      throw 'Create invoice returned undefined.'
+    }
+
+    const { payment_request, r_hash: hash } = response
 
     if (payment_request === undefined || hash === undefined) {
       return res.status(200).json({ err: 'Error fetching invoice from server!' })
     }
 
-    req.session.pending = { hash, amount, nickname, pubkey, duration }
+    req.session.pending = { hash, amount, nickname, pubkey, duration, receipt: payment_request }
 
     await req.session.save()
 

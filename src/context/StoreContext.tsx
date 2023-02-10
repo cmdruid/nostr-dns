@@ -30,6 +30,7 @@ interface StoreSchema {
 const initialStore = {
   nickname    : undefined,
   isAvailable : false,
+  loading     : {},
   pending     : {},
   status      : 'new'
 }
@@ -68,6 +69,28 @@ export function StoreProvider (
 
   useEffect(() => {
     console.log('Store:', store)
+  }, [ store ])
+
+  useEffect(() => {
+    if (
+      store.status   === 'new'
+    ) {
+      ( async () => {
+        const res = await fetch(window.location.origin + '/api/session/pending')
+        if (res.ok) res.json().then(session => {
+          console.log('restored session:', session)
+          if (typeof session === 'object') {
+            const value = { 
+              pending  : session, 
+              nickname : session.nickname,
+              pubkey   : session.pubkey,
+              status   : 'restored' 
+            }
+            dispatch({ type: 'update', value })
+          }
+        })
+      })()
+      }
   }, [ store ])
 
   return (

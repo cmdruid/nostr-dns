@@ -2,7 +2,7 @@
 
 import { connect } from './db'
 
-const devMode = process.env.NODE_ENV !== 'production';
+const devMode = process.env.NODE_ENV !== 'production'
 
 export async function getCollection(schema : any) {
   /** Returns a collection based upon the provided schema, 
@@ -21,7 +21,10 @@ export async function getCollection(schema : any) {
     return coll;
   }
 
+  console.log('mode:', devMode)
+
   if (devMode) {
+    console.dir(cache.options, { depth: null })
     if (
       cache.options !== undefined &&
       isDiff(cache.options, options)

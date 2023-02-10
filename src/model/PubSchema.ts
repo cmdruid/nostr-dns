@@ -6,12 +6,14 @@ const PubSchema = {
    */
   bsonType: "object",
 
-  required: [ "name", "pubkey" ],
+  required: [ 
+    "name", "pubkey", "status", "purchased", "expires", "receipt" 
+  ],
   
   properties: {
     name: {
       bsonType: "string",
-      maxLength: 64,
+      maxLength: 32,
       description: "Must be a string and is required."
     },
     pubkey: {
@@ -26,14 +28,13 @@ const PubSchema = {
       bsonType: [ "string" ]
     },
     purchased: {
-      bsonType: [ "date" ],
+      bsonType: [ "number" ],
     },
     expires: {
-      bsonType: [ "date" ]
+      bsonType: [ "number" ]
     },
-    invoice: {
-      bsonType: [ "string" ],
-      maxLength: 256
+    receipt: {
+      bsonType: [ "string" ]
     }
   }
 }

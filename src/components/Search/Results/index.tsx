@@ -24,7 +24,7 @@ export default function SearchResults (
       { store.status === 'searching' &&
         <p>Searching for {store.nickname} ...</p>
       }
-      { store.status === 'delivered' && !isAvailable &&
+      { store.status === 'delivered' && !isAvailable && 
         <p>{store.nickname} is not available!</p>
       }
       {

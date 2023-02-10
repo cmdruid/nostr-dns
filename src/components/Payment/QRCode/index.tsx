@@ -7,11 +7,12 @@ import useClipboard from '@/hooks/useClipboard'
 import styles from './styles.module.css'
 
 interface Props {
-  data   : string,
-  label ?: string
+  data     : string,
+  loading ?: boolean,
+  label   ?: string
 }
 
-export default function QRCode({ data, label } : Props) : ReactElement {
+export default function QRCode({ data, label, loading } : Props) : ReactElement {
   const [ qrData, setQrData ]   = useState('')
   const [ isCopied, setCopied ] = useClipboard(data)
 
@@ -24,10 +25,15 @@ export default function QRCode({ data, label } : Props) : ReactElement {
     }
   }, [ data ])
 
+  const cls = [ styles.qrcode ]
+
+  if (loading) cls.push(styles.loading)
+
   return (
     <>
       { qrData !== '' && 
-        <div className = { styles.qrcode }>
+        <div className = { cls.join(' ') }>
+          { loading && <div className={ styles.spinner }></div> }
           { label && 
             <div 
               className = { styles.label }

@@ -12,31 +12,33 @@ interface Props {
 export default function Payment (
   { props } : Props
 ) : ReactElement {
-  const [ duration, setDuration ] = useState(1)
-  const [ invoice, setInvoice ]   = useState('')
-
-  const { store, update } = useStore()
+  const [ loading, setLoading ] = useState(false)
+  const { store, set, update }  = useStore()
+  const setDuration = (value : string) : void => { set('pending', { ...store.pending, duration: value }) }
+  const setInvoice  = (value : string) : void => { set('pending', { ...store.pending, receipt:  value }) }
 
   useEffect(() => {
-    if (invoice !== '') {
-      (async () => { 
+    if (store.pending.receipt !== undefined && !loading) {
+      (async () => {
         for (let i = 0; i < 10; i++) {
+          setLoading(true)
           const url = window.location.origin + '/api/invoice/pending'
           const res = await fetch(url)
           if (res.ok) {
+            setLoading(false)
             const { settled, newAcct } = await res.json()
             if (settled) {
               console.log('New Account:', newAcct)
-              update({ status: 'registered' })
-              setInvoice('')
+              update({ status: 'registered', pending: {} })
+
               break
             }
-          }
-          await sleep(2000)
+          } else { break }
+          await sleep(5000)
         }
       })()
     }
-  }, [ invoice ])
+  }, [ store ])
 
   const submit = async () => {
     if (
@@ -46,15 +48,15 @@ export default function Payment (
       const query = new URLSearchParams({
         nickname : store.nickname,
         pubkey   : store.pubkey,
-        duration : String(duration)
+        duration : store.pending.duration
       })
       const url = window.location.origin + '/api/invoice/request'
       const request = url + '?' + query.toString()
-      console.log(request)
       const res = await fetch(request)
       if (res.ok) {
         const { err, data } = await res.json()
         if (err) {
+          console.log(err)
           setInvoice('')
           update({ payment_err: err })
         } else { setInvoice(data) }
@@ -64,18 +66,18 @@ export default function Payment (
 
   return (
     <div className={styles.container}>
-      { store.nickname && store.isAvailable &&
+      { store.nickname && (store.isAvailable || store.pending.duration) &&
         <div>
           <div className={styles.item}>
             <label>Duration months</label>
             <input 
               type     = "number"
-              value    = { duration }
-              onChange = { (e) => { setDuration(Number(e.target.value)) }}
+              value    = { store.pending.duration }
+              onChange = { (e) => { setDuration(e.target.value) }}
             />
           </div>
           <div className={styles.quote}>
-            <p>Price: <span>{duration * 200}</span> sats</p>
+            <p>Price: <span>{Number(store.pending.duration) * 200}</span> sats</p>
           </div>
           <button onClick={submit}>Generate Invoice</button>
         </div>
@@ -83,7 +85,12 @@ export default function Payment (
       { store.payment_err &&
         <div className={styles.error}><p>{ store.payment_err }</p></div>
       }
-      { invoice !== '' && <QRCode data={invoice} /> }
+      { store.pending.receipt !== undefined &&
+        <QRCode 
+          data    = { store.pending.receipt }
+          loading = { loading }
+        />
+      }
       { store.status === 'registered' &&
         <p>You have registered {store.nickname}</p>
       }
