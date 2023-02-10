@@ -1,9 +1,10 @@
 import { ReactElement, useEffect, useState } from 'react'
-import useStore from '@/hooks/useStore'
-import QRCode   from './QRCode'
+import useStore   from '@/hooks/useStore'
+import QRCode     from './QRCode'
+import { sleep }  from '@/lib/utils'
+import { config } from '@/config'
 
 import styles from './styles.module.css'
-import { sleep } from '@/lib/utils'
 
 interface Props {
   props ?: any
@@ -14,13 +15,13 @@ export default function Payment (
 ) : ReactElement {
   const [ loading, setLoading ] = useState(false)
   const { store, set, update }  = useStore()
-  const setDuration = (value : string) : void => { set('pending', { ...store.pending, duration: value }) }
+  const setDuration = (value : string) : void => { set('duration', value) }
   const setInvoice  = (value : string) : void => { set('pending', { ...store.pending, receipt:  value }) }
-
+ 
   useEffect(() => {
     if (store.pending.receipt !== undefined && !loading) {
       (async () => {
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 24; i++) {
           setLoading(true)
           const url = window.location.origin + '/api/invoice/pending'
           const res = await fetch(url)
@@ -36,6 +37,7 @@ export default function Payment (
           } else { break }
           await sleep(5000)
         }
+        // Option to timeout and cancel invoice here.
       })()
     }
   }, [ store ])
@@ -48,7 +50,7 @@ export default function Payment (
       const query = new URLSearchParams({
         nickname : store.nickname,
         pubkey   : store.pubkey,
-        duration : store.pending.duration
+        duration : store.duration
       })
       const url = window.location.origin + '/api/invoice/request'
       const request = url + '?' + query.toString()
@@ -72,12 +74,14 @@ export default function Payment (
             <label>Duration months</label>
             <input 
               type     = "number"
-              value    = { store.pending.duration }
+              min      = "1"
+              max      = "60"
+              value    = { store.duration }
               onChange = { (e) => { setDuration(e.target.value) }}
             />
           </div>
           <div className={styles.quote}>
-            <p>Price: <span>{Number(store.pending.duration) * 200}</span> sats</p>
+            <p>Price: <span>{Number(store.duration) * 200}</span> sats</p>
           </div>
           <button onClick={submit}>Generate Invoice</button>
         </div>
@@ -88,6 +92,7 @@ export default function Payment (
       { store.pending.receipt !== undefined &&
         <QRCode 
           data    = { store.pending.receipt }
+          label   = {`${store.nickname}@${config.site_name}`}
           loading = { loading }
         />
       }

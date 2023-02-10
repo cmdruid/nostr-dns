@@ -1,3 +1,7 @@
 .container {
   display: block;
 }
+
+.container pre {
+  text-align: left;
+}

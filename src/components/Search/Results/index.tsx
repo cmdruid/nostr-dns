@@ -13,22 +13,21 @@ export default function SearchResults (
 
   const { store } = useStoreContext()
 
-  const isAvailable = (
-    store.nickname !== undefined &&
-    store.status === 'delivered' &&
-    store.record.name === undefined
-  )
-
   return (
     <div className={styles.container}>
       { store.status === 'searching' &&
         <p>Searching for {store.nickname} ...</p>
       }
-      { store.status === 'delivered' && !isAvailable && 
-        <p>{store.nickname} is not available!</p>
+      { store.status === 'delivered' && !store.isAvailable &&
+        <>
+          { store.record !== undefined && store.record.pubkey === store.pubkey
+            && <pre>{JSON.stringify(store.record, null, 2)}</pre>
+            || <p>{store.nickname} is not available!</p>
+          }
+        </>
       }
       {
-        store.status === 'delivered' && isAvailable &&
+        store.status === 'delivered' && store.isAvailable &&
         <p>{store.nickname} is available!</p>
       }
     </div>
