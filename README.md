@@ -1,7 +1,6 @@
 # nostr-dns
 
-This will be a basic nextjs template project for launching a nip5 DNS service.
+Basic Nextjs template project for launching a nip5 DNS service.
 
-The goal is to have a one-click install that registers pubkeys for nip5, and generates invoices to pay for them.
+This site will register names to a pubkey, and generate invoices.
 
-Stay tuned.
