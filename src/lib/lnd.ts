@@ -53,7 +53,7 @@ async function fetchEndpoint(endpoint : string, opt : RequestInit = {}) {
   }
 
   if (macaroon === undefined) {
-    throw 'Environment varaible \'READONLY_MACAROON\' is undefined!'
+    throw 'Environment varaible \'INVOICE_MACAROON\' is undefined!'
   }
 
   opt.headers = { 
