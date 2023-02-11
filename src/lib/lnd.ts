@@ -20,36 +20,45 @@ interface createInvoice {
 export async function createInvoice ({
   amount, hash, memo
 } : createInvoice ) {
-  const macaroon = process.env.INVOICE_MACAROON
-  if (macaroon === undefined) {
-    throw 'Environment varaible \'INVOICE_MACAROON\' is undefined!'
-  }
   const body : Record<string, string> = { value_msat: String(amount) }
   if (hash !== undefined) body.description_hash = hash
   if (memo !== undefined) body.memo = memo
   const opt = {
     method  : 'POST',
-    body    : JSON.stringify(body), 
-    headers : { 'Grpc-Metadata-macaroon': macaroon } 
+    body    : JSON.stringify(body)
   }
   return fetchEndpoint('/v1/invoices', opt)
 }
 
 export async function lookupInvoice (hash : string) {
-  const macaroon = process.env.INVOICE_MACAROON
-  if (macaroon === undefined) {
-    throw 'Environment varaible \'READONLY_MACAROON\' is undefined!'
+  const urlsafe = hash.replace('+', '-').replace('/', '_')
+  return fetchEndpoint('/v2/invoices/lookup?payment_hash=' + urlsafe)
+}
+
+export async function cancelInvoice (hash : string) {
+  const body : Record<string, string> = { payment_hash: hash }
+  const opt = {
+    method  : 'POST',
+    body    : JSON.stringify(body)
   }
-  // const query = new URLSearchParams({ payment_hash : hash})
-  const opt = { headers : { 'Grpc-Metadata-macaroon': macaroon } }
-  return fetchEndpoint('/v2/invoices/lookup?payment_hash=' + hash, opt)
+  return fetchEndpoint('/v2/invoices/cancel?payment_hash=' + hash, opt)
 }
 
 async function fetchEndpoint(endpoint : string, opt : RequestInit = {}) {
   const hostname = process.env.INVOICE_HOSTNAME
+  const macaroon = process.env.INVOICE_MACAROON
 
   if (hostname === undefined) {
     throw 'Environment varaible \'INVOICE_HOSTNAME\' is undefined!'
+  }
+
+  if (macaroon === undefined) {
+    throw 'Environment varaible \'READONLY_MACAROON\' is undefined!'
+  }
+
+  opt.headers = { 
+    ...opt.headers, 
+    'Grpc-Metadata-macaroon': macaroon 
   }
 
   try {

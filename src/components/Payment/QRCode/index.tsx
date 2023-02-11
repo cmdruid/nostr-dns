@@ -8,11 +8,12 @@ import styles from './styles.module.css'
 
 interface Props {
   data     : string,
+  clear    : () => void,
   loading ?: boolean,
   label   ?: string
 }
 
-export default function QRCode({ data, label, loading } : Props) : ReactElement {
+export default function QRCode({ clear, data, label, loading } : Props) : ReactElement {
   const [ qrData, setQrData ]   = useState('')
   const [ isCopied, setCopied ] = useClipboard(data)
 
@@ -50,11 +51,17 @@ export default function QRCode({ data, label, loading } : Props) : ReactElement 
             width     = { 300 }
             height    = { 300 }
           />
-          <div
-            className = { styles.button }
-            onClick   = { () => setCopied() }
-          >
-            { isCopied ? "Copied to clipboard!" : "Copy LNURL to Clipboard" }
+          <div className = { styles.controls }>
+            <div
+              className = { styles.copyBtn }
+              onClick   = { () => setCopied() }
+            >
+              { isCopied ? "Copied to clipboard!" : "Copy LNURL to Clipboard" }
+            </div>
+            <div 
+              className = { styles.clearBtn }
+              onClick   = { () => clear() }
+            > Clear </div>
           </div>
         </div>
       }

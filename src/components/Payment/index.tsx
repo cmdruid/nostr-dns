@@ -15,8 +15,16 @@ export default function Payment (
 ) : ReactElement {
   const [ loading, setLoading ] = useState(false)
   const { store, set, update }  = useStore()
+
   const setDuration = (value : string) : void => { set('duration', value) }
   const setInvoice  = (value : string) : void => { set('pending', { ...store.pending, receipt:  value }) }
+  
+  const cancelInv   = () : void => {
+    if (store.pending?.receipt !== undefined) {
+      fetch(window.location.origin + '/api/invoice/cancel')
+      set('pending', {})
+    }
+  }
  
   useEffect(() => {
     if (store.pending.receipt !== undefined && !loading) {
@@ -31,7 +39,6 @@ export default function Payment (
             if (settled) {
               console.log('New Account:', newAcct)
               update({ status: 'registered', pending: {} })
-
               break
             }
           } else { break }
@@ -94,6 +101,7 @@ export default function Payment (
           data    = { store.pending.receipt }
           label   = {`${store.nickname}@${config.site_name}`}
           loading = { loading }
+          clear   = { cancelInv }
         />
       }
       { store.status === 'registered' &&
