@@ -1,25 +1,36 @@
 .container {
-  margin                    : 0, auto;
-  height                    : 100%;
+  margin                    : 10%;
+  margin-top                : 10%;
+  height                    : 50%;
   display                   : flex;
   flex-direction            : column;
   align-items               : center;
   text-align                : center;
+  font-family               : 'IBM Plex Mono', monospace;
+  background-color          : #454545;
+  box-shadow                : #F3ED7B 5px 5px, #b1ad34 10px 10px, #9a8c0b 15px 15px, #595003 20px 20px, #282405 25px 25px;
+  
 }
 
-.header {
+.header h1 {
   top                       : 0;
   position                  : sticky;
   width                     : 100%;
   padding                   : 0.5rem;
   color                     : white;
-  background-color          : #373737ff;
+  background-color          : #323437;
   z-index                   : 1;
 }
 
+.box { 
+  background-color          : #b1ad34;
+  padding-top               : 20px;
+  padding-bottom            : 20px;
+}
+
 .main {
-  height  : 100%;
-  padding : 1rem;
+  height                    : 100%;
+  padding                   : 1rem;
 }
 
 .footer {
@@ -28,4 +39,3 @@
   color                     : white;
   background-color          : #373737ff;
 }
-

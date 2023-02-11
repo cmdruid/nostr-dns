@@ -1,4 +1,12 @@
 .container {
-  display: block;
-  margin: 1rem;
+  display         : block;
+  margin          : 1rem;
+}
+
+.header { 
+    font-size     : 5rem;
+}
+
+.box { 
+  color           :#FFD502;
 }

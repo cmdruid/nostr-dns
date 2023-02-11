@@ -38,8 +38,10 @@ main {
  */
 
 h1 {
+  font-family: 'Lexend Mega', sans-serif;
   font-size: 2em;
   margin: 0.67em 0;
+  color: #FFD502;
 }
 
 /* Grouping content

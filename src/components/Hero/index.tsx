@@ -11,9 +11,11 @@ export default function Hero (
 
   return (
     <div className={styles.container}>
-      <h1>pubkey.club</h1>
-      <h2>Grab a nickname, join the club.</h2>
-      <p>We are a nostr + lightning business.</p>
+      <h1 className={styles.header}>Ordinal.Name</h1>
+      <div className={styles.box}>
+        <h2>Grab a nickname, join the club.</h2>
+        <p>We are a nostr + lightning business.</p>
+      </div>
     </div>
   )
 }
