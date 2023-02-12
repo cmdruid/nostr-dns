@@ -1,6 +1,7 @@
 import { ReactElement } from 'react'
 import Head   from 'next/head'
 import styles from './styles.module.css'
+import Image  from 'next/image'
 
 interface Props {
   children : ReactElement | ReactElement[]
@@ -25,9 +26,11 @@ export default function Layout (
         { children }
       </main>
 
-      {/* <footer className={styles.footer}>
-         <p>Placeholder footer</p>
-      </footer> */}
+      <footer className={styles.footer}>
+        <a href="https://github.com/cmdruid/nostr-dns">
+          Github
+        </a>
+      </footer>
 
     </div>
   )

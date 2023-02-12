@@ -14,12 +14,13 @@ export default function SearchBar () : ReactElement {
   return (
     <div className={styles.container}>
       <div className={styles.bar}>
-        <input
+        <input 
+          className={styles.input}
           type="text" value={store.nickname}
           onChange={(e) => { setInput(e.target.value) }}
           placeholder={'enter a name to search ...'}
         />
-        <button onClick={submit}>Search</button>
+        <button className={styles.button} onClick={submit}>Search</button>
       </div>
     </div>
   )

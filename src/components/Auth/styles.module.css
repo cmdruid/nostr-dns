@@ -1,8 +1,48 @@
 .container {
-  display: block;
-  margin: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
 }
 
 .container button {
   margin-bottom: 1rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.headerLeft p {
+  font-weight: bold;
+  font-size: 1.2rem; 
+  transform: translateY(-3px);
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: auto; 
+}
+
+.headerRight p{
+  font-weight: 800;
+}
+
+.loginButton {
+  padding           : 10px;
+  border-color      : #FFD502;
+  background-color  : #FFD502;
+  font-weight       : 900;
+  outline           : none;
 }

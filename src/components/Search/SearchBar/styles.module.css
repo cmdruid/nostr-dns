@@ -1,4 +1,25 @@
 .container {
-  display: block;
-  margin: 1rem;
+  display            : block;
+  margin             : 1rem;
+}
+
+.input {
+  position          : relative;
+  background-color  : #000000;
+  color             : #FFD502;
+  outline           : none;
+  width             : 85%;
+  font-size         : 19px;
+  caret-shape       : block;
+  caret-color       : #FFD502;
+  padding           : 10px;
+}
+
+.button { 
+  width             : 15%;
+  padding           : 10px;
+  border-color      : #FFD502;
+  background-color  : #FFD502;
+  font-weight       : 900;
+  outline           : none;
 }

@@ -1,12 +1,13 @@
 .container {
-  display         : block;
-  margin          : 1rem;
+  display: block;
+  margin: 1rem;
 }
 
-.header { 
-    font-size     : 5rem;
+.header {
+  font-size: 5rem;
+  margin-top: 100px;
 }
 
-.box { 
-  color           :#FFD502;
+.box {
+  background-color: #ffd502;
 }
