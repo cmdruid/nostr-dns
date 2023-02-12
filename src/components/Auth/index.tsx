@@ -42,7 +42,7 @@ export default function Auth (
         draggable: true,
         progress: undefined,
         toastId: 'auth-toast',
-        theme: "dark",
+        theme: "colored",
       });
     }
   };
