@@ -3,7 +3,6 @@ import useStore   from '@/hooks/useStore'
 import QRCode     from './QRCode'
 import { sleep }  from '@/lib/utils'
 import { config } from '@/config'
-
 import styles from './styles.module.css'
 
 interface Props {
@@ -74,39 +73,50 @@ export default function Payment (
   }
 
   return (
-    <div className={styles.container}>
-      { store.nickname && (store.isAvailable || store.pending.duration) &&
-        <div>
+    <div className={styles.gridContainer}>
+    {store.nickname && (store.isAvailable || store.pending.duration) && (
+      <div className={styles.leftSection}>
           <div className={styles.item}>
-            <label>Duration months</label>
-            <input 
-              type     = "number"
-              min      = "1"
-              max      = "60"
-              value    = { store.duration }
-              onChange = { (e) => { setDuration(e.target.value) }}
-            />
-          </div>
-          <div className={styles.quote}>
-            <p>Price: <span>{Number(store.duration) * 200}</span> sats</p>
-          </div>
-          <button onClick={submit}>Generate Invoice</button>
+            <p className={styles.name}>              
+              {store.nickname}@{config.site_name}
+            </p>
+          <label>Duration months</label>
+          <input
+            type="number"
+            min="1"
+            max="60"
+            value={store.duration}
+            onChange={(e) => {
+              setDuration(e.target.value);
+            }}
+          />
         </div>
-      }
-      { store.payment_err &&
-        <div className={styles.error}><p>{ store.payment_err }</p></div>
-      }
-      { store.pending.receipt !== undefined &&
-        <QRCode 
-          data    = { store.pending.receipt }
-          label   = {`${store.nickname}@${config.site_name}`}
-          loading = { loading }
-          clear   = { cancelInv }
+        <div className={styles.quote}>
+          <p>
+            Price: <span>{Number(store.duration) * 200}</span> sats
+          </p>
+        </div>
+        <button onClick={submit}>Generate Invoice</button>
+      </div>
+    )}
+    {store.payment_err && (
+      <div className={styles.error}>
+        <p>{store.payment_err}</p>
+      </div>
+    )}
+    {store.pending.receipt !== undefined && (
+      <div className={styles.rightSection}>
+        <QRCode
+          data={store.pending.receipt}
+          // label={`${store.nickname}@${config.site_name}`}
+          loading={loading}
+          clear={cancelInv}
         />
-      }
-      { store.status === 'registered' &&
-        <p>You have registered {store.nickname}</p>
-      }
-    </div>
+        {store.status === 'registered' && (
+          <p>You have registered {store.nickname}</p>
+        )}
+      </div>
+    )}
+  </div>
   )
 }

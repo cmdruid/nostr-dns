@@ -9,3 +9,43 @@
 .searching { 
   color: white;
 }
+
+.searching {
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 3px;
+  background-color: #848181;
+  width: 300px;
+  margin-left: 1rem;
+  margin-bottom: 9px;
+}
+
+.true {
+  color: rgb(255, 255, 255);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 3px;
+  background-color: #1EA97A;
+  width: 100px;
+  margin-left: 1rem;
+  margin-bottom: 9px;
+}
+
+
+.false { 
+  color: rgb(255, 255, 255);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 3px;
+  background-color: #848181;
+  width: 100px;
+  margin-left: 1rem;
+  margin-bottom: 9px;
+}
+
+.icon { 
+  transform: translateY(2px);
+  margin-right: 4px;
+}

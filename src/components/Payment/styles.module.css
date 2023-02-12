@@ -1,12 +1,30 @@
-.container {
-  display: block;
-  margin: 1rem;
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+  height: 400px;
 }
 
-.container button {
-  margin-bottom: 1rem;
+.leftSection {
+  grid-column: 1 / 2;
+  text-align: left;
+  padding-left: 1rem;
+}
+
+.rightSection {
+  grid-column: 2 / 3;
+}
+
+.name { 
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 39px;
+  padding-bottom: 40px;
 }
 
 .quote {
    margin-bottom: 1rem;
 }
+
+
+

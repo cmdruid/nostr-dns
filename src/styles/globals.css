@@ -88,12 +88,28 @@ body,
 #__next {
   height: 100%;
   overflow-x: hidden;
-  background: radial-gradient(
-    circle,
-    rgba(15, 26, 31, 1) 0%,
-    rgba(0, 0, 0, 1) 39%,
-    rgba(38, 38, 42, 1) 100%
-  );
+  background: linear-gradient(245deg, #000000, #1e1e1e, #343436, #424446, #494b4d, #424446, #1e1e1e, #000000);
+    background-size: 1600% 1600%;
+
+    -webkit-animation: AnimationName 35s ease infinite;
+    -moz-animation: AnimationName 35s ease infinite;
+    animation: AnimationName 35s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 81%}
+    50%{background-position:100% 20%}
+    100%{background-position:0% 81%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 81%}
+    50%{background-position:100% 20%}
+    100%{background-position:0% 81%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 81%}
+    50%{background-position:100% 20%}
+    100%{background-position:0% 81%}
 }
 
 body {

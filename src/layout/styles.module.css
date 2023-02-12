@@ -7,7 +7,7 @@
   text-align                : center;
   font-family               : 'IBM Plex Mono', monospace;
   background                : linear-gradient(90deg, rgba(50,52,55,1) 0%, rgba(50,52,55,1) 35%, rgba(36,38,40,1) 100%);
-  box-shadow                : #F3ED7B 5px 5px, #b1ad34 10px 10px, #9a8c0b 15px 15px, #595003 20px 20px, #282405 25px 25px;
+  box-shadow                : #F3ED7B 5px 5px, #cbc63b 10px 10px, rgb(173, 157, 20) 15px 15px, #a0920c 20px 20px, #7a6e12 25px 25px;
 }
 
 .header h1 {
