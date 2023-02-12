@@ -51,7 +51,7 @@ export default function Auth (
     <div className={styles.container}>
       { store.pubkey &&
         <div className={styles.headerRight}>
-          <p>Authenticated as: &nbsp;</p>
+          <p>Authenticated as:&nbsp;</p>
           <pre>{ store.pubkey }</pre>
         </div>
       }

@@ -16,7 +16,7 @@ export default function SearchResults (
   return (
     <div className={styles.container}>
       { store.status === 'searching' &&
-        <p>Searching for {store.nickname} ...</p>
+        <p className={styles.searching}>Searching for {store.nickname} ...</p>
       }
       { store.status === 'delivered' && !store.isAvailable &&
         <>
