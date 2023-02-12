@@ -4,6 +4,7 @@ import QRCode     from './QRCode'
 import { sleep }  from '@/lib/utils'
 import { config } from '@/config'
 import styles from './styles.module.css'
+import { BsFillLightningChargeFill } from 'react-icons/bs'
 
 interface Props {
   props ?: any
@@ -80,23 +81,31 @@ export default function Payment (
             <p className={styles.name}>              
               {store.nickname}@{config.site_name}
             </p>
-          <label>Duration months</label>
-          <input
-            type="number"
-            min="1"
-            max="60"
-            value={store.duration}
-            onChange={(e) => {
-              setDuration(e.target.value);
-            }}
-          />
+            <div className={styles.payment}>
+              <label>Ownership Duration In Months</label>
+              <input
+                className={styles.input}
+                type="number"
+                min="1"
+                max="60"
+                value={store.duration}
+                onChange={(e) => {
+                  setDuration(e.target.value);
+                }}
+              />
+            <div className={styles.quote}>
+            <p>
+              Total Price: <span className={styles.price}>
+              {Number(store.duration) * 200}
+              </span> sats
+            </p>
+            </div>
+              <button onClick={submit} className={styles.button}>
+                <BsFillLightningChargeFill className={styles.icon} />
+                Generate Invoice
+              </button>
+          </div>
         </div>
-        <div className={styles.quote}>
-          <p>
-            Price: <span>{Number(store.duration) * 200}</span> sats
-          </p>
-        </div>
-        <button onClick={submit}>Generate Invoice</button>
       </div>
     )}
     {store.payment_err && (

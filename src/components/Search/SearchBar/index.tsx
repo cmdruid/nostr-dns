@@ -1,5 +1,7 @@
 import { ReactElement, useState } from 'react'
 import useLookup from '@/hooks/useLookup'
+import { ImSearch } from 'react-icons/im'
+
 
 import styles from './styles.module.css'
 import useStore from '@/hooks/useStore'
@@ -20,7 +22,7 @@ export default function SearchBar () : ReactElement {
           onChange={(e) => { setInput(e.target.value) }}
           placeholder={'enter a name to search ...'}
         />
-        <button className={styles.button} onClick={submit}>Search</button>
+        <button className={styles.button} onClick={submit}><ImSearch className={styles.icon} />Search</button>
       </div>
     </div>
   )
