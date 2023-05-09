@@ -31,7 +31,7 @@ export async function createInvoice ({
 }
 
 export async function lookupInvoice (hash : string) {
-  const urlsafe = hash.replace('+', '-').replace('/', '_')
+  const urlsafe = hash.replaceAll('+', '-').replaceAll('/', '_')
   return fetchEndpoint('/v2/invoices/lookup?payment_hash=' + urlsafe)
 }
 
